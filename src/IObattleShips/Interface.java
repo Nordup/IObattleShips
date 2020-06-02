@@ -34,23 +34,24 @@ class Interface {
 		putstr(winDrafts.strCreatingOfMap);
 	}
 
-	protected void putfillMapWithShips(int[][] map, int size) {
+	protected void putfillMapWithShips(int[][] map, int size, String map_name) {
 		String[] help = new String[] {
 			"\n",
-			"\tPUT THERE SOME HELP INFORMATION\n",
+			"\tWrite position for ship with size " + size + "\n",
+			"\tExamples: \"A0-A2\"(size: 3)\n",
+			"\t          \"B3-E3\"(size: 4)\n",
+			"\t          \"A0-A0\"(size: 1)\n",
 			"\n",
 			"\n",
-			"\n",
-			"\n",
-			"\n",
-			"\n",
-			"\n",
+			"\t1) BACK TO MENU\n",
+			"\t  (map do not be saved)\n",
 			"\n"
 		};
 		clearScreen();
 		putHead();
 		
 		putstr("\n\tFILL MAP WITH SHIPS\n");
+		putstr("\tmap name: " + map_name + "\n");
 		putstr("\n\t 0 1 2 3 4 5 6 7 8 9\n");
 		for (int i = 0; i < 10; i++) {
 			putstr("\t" + Character.toString('A' + i));
@@ -65,8 +66,6 @@ class Interface {
 			putstr(help[i]);
 		}
 		putstr("\n");
-
-		putAnswer();
 	}
 
 	protected void	clearScreen() {
