@@ -23,33 +23,33 @@ class Battle {
 	private int initMaps() {
 		boolean log = true;
 
+		iface.clearScreen();
+		iface.putHead();
+		iface.putstr("\n\tCHOOSE YOUR MAP\n\t(write name of map)\n\n\tmaps:\n");
+		pushList("./resources/maps", iface);
+		iface.putstr("\n\t1) BACK TO MENU\n\n");
 		while (log) {
 			String filename;
-			iface.clearScreen();
-			iface.putHead();
-			iface.putstr("\n\tCHOOSE YOUR MAP\n\t(write name of map)\n\n\tmaps:\n");
-			pushList("./resources/maps", iface);
-			iface.putstr("\n\t1) BACK TO MENU\n\n");
 			iface.putAnswer();
 			filename = in.getNext();
 			if (filename.equals("1"))
 				return 1;
-			if (myMap.readMap() == 0)
+			if (myMap.readMap(filename) == 0)
 				log = false;
 		}
 		log = true;
+		iface.clearScreen();
+		iface.putHead();
+		iface.putstr("\n\tCHOOSE MAP OF YOUR OPPONENT\n\t(write name of map)\n\n\tmaps:\n");
+		pushList("./resources/maps", iface);
+		iface.putstr("\n\t1) BACK TO MENU\n\n");
 		while (log) {
 			String filename;
-			iface.clearScreen();
-			iface.putHead();
-			iface.putstr("\n\tCHOOSE MAP OF YOUR OPPONENT\n\t(write name of map)\n\n\tmaps:\n");
-			pushList("./resources/maps", iface);
-			iface.putstr("\n\t1) BACK TO MENU\n\n");
 			iface.putAnswer();
 			filename = in.getNext();
 			if (filename.equals("1"))
 				return 1;
-			if (opMap.readMap() == 0)
+			if (opMap.readMap(filename) == 0)
 				log = false;
 		}
 		return 0;

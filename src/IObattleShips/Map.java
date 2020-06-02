@@ -1,4 +1,5 @@
 package IObattleShips;
+import java.io.IOException;
 import static IObattleShips.MyFile.*;
 import static IObattleShips.Time.*;
 import static IObattleShips.BattleShip.*;
@@ -6,10 +7,40 @@ import static IObattleShips.BattleShip.*;
 class Map {
 	String					map_name;
 	String					time_of_creating;
-	private int[][]			map;// 1 to 4 - ship id, 5 - shotted ship, 6 - empty fill
+	int[][]			map;// 1 to 4 - ship id, 5 - shotted ship, 6 - empty fill
 	private BattleShip[]	ship = new BattleShip[10];
 
-	public int readMap() {
+	public void importMap(Interface iface, Input in) {
+	}
+
+	public int readMap(String filename) {
+		String strMap;
+		String mapPath = "./resources/maps/" + filename + ".map";
+
+		try {
+			strMap = readFileAsString(mapPath);
+		} catch (IOException e) {
+			System.out.println("Cannot read file: " + e.getMessage()); //it will not appear
+			return 1;
+		}
+		if (createMap(strMap, filename) != 0){
+			System.out.println("wrong map, choose another one");
+			return 1;
+		}
+		return 0;
+	}
+
+	public int createMap(String strMap, String map_name) {
+		this.map_name = map_name;
+		time_of_creating = strMap.substring(100);
+		emptyMap();
+		for (int id = 0; id < 10; id++) { // create ships with sizes
+			ship[id] = new BattleShip(getSizeFromID(id));
+		}
+		strMap = strMap.substring(0, 100);
+		char[] cMap = strMap.toCharArray();
+		if (fillMapWithShips(cMap) != 0)
+			return 1;
 		return 0;
 	}
 
@@ -27,9 +58,6 @@ class Map {
 		return 0;
 	}
 
-	public void importMap(Interface iface, Input in) {
-	}
-
 	private void emptyMap() { // create empty map
 		map = new int[10][10];
 
@@ -40,22 +68,52 @@ class Map {
 		}
 	}
 
+	private int fillMapWithShips(char[] cMap) {
+		for (int i = 0; i < 100; i++) { // chars from cMap
+			char	code;
+			int		id;
+
+			code = cMap[i];
+			if (code == 6)
+				continue;
+			id = this.gerIDFromSize(code); // find ship code
+			if (id < 0) // its mean that we haven't any ships or code and size is wrong
+				return 1;
+			if (ship[id].setPosition(cMap, i, map)) // set ships if we can
+				;
+			else // if map is wrong
+				return 1;
+		}
+		return 0;
+	}
+	private int gerIDFromSize(int size) {
+		if (size < 1 || size > 4) // if its not ship size
+			return -1;
+		
+		for (int id = 0; id < 10; id++) { // check for every ship
+			if (ship[id].size == size && !ship[id].have_pos) // if size right and ships positions is empty
+				return id;
+		}
+		return -1;
+	}
+
 	private int fillMapWithShips(Interface iface, Input in) {
 		for (int id = 0; id < 10; id++) {
 			String	position = "";
 
+			//put interface with map end help
 			iface.putfillMapWithShips(map, getSizeFromID(id), map_name);
 			while (position.length() < 1) {
 				iface.putAnswer();
-				position = in.getNext();
-				if (position.equals("1")) {
+				position = in.getNext(); // get position where to put ship
+				if (position.equals("1")) { // back to menu
 					return 1;
 				}
 				if (position.length() != 5)
 					position = "....."; // put wrong pos
 				if (ship[id].isItRightPosition(position, iface) && ship[id].setPosition(position, map, iface))
-					;
-				else {
+					; // set ships if we can in previous statement
+				else { // wrong answer
 					position = "";
 				}
 			}

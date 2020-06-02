@@ -3,13 +3,41 @@ import java.lang.Math;
 
 class BattleShip {
 	int			size;
+	boolean		have_pos;//set positions or not
 	int[][]		position;//[size][coor]
 	int			health;
 
 	public BattleShip(int size) {
 		this.size = size;
+		have_pos = false;
 		position = new int[size][2];
 		health = size;
+	}
+
+	protected boolean setPosition(char[] cMap, int c, int[][] map) {
+		//something that can set positions
+		for (int i = 0; i < size; i++) {
+			int y = c / 10;
+			int x = c % 10;
+			if (cMap[c] == size) {
+				position[i][0] = y;
+				position[i][1] = x;
+				cMap[c] = 6; // empty fill
+			} else {
+				return false;
+			}
+			if (isInmap(x + 1) && cMap[c + 1] == size)
+				c += 1;
+			else if (isInmap(y + 1) && cMap[c + 10] == size)
+				c += 10;
+		}
+
+		if (shipsAround(map)) {// if we have ships around
+			return false;
+		}
+		fillMap(map); // push to map
+		have_pos = true; // for Map.getIDFromSize()
+		return true;
 	}
 
 	protected boolean setPosition(String pos, int[][] map, Interface iface) {
