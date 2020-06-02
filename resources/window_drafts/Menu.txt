@@ -1,0 +1,7 @@
+
+        1) START GAME
+        2) CREATE NEW MAP
+        3) ADD EXECUTING MAP
+        4) HELP
+        5) EXIT
+        

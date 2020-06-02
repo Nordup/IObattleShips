@@ -1,0 +1,5 @@
+package IObattleShips;
+
+class BattleShip {
+
+}
