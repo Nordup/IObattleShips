@@ -1,11 +1,17 @@
 package IObattleShips;
 import static IObattleShips.MyFile.*;
 import static IObattleShips.Time.*;
+import static IObattleShips.BattleShip.*;
 
 class Map {
 	String			map_name;
 	String			time_of_creating;
-	private int[][]	map;// 1 is shoted ship, 2 is empty/sea, 3 is alive ship
+	private int[][]	map;// 1 to 4 - ship id, 5 - shotted ship, 6 - empty fill
+	private BattleShip[]	ship = new BattleShip[10];
+
+	public void readMap() {
+
+	}
 
 	public int createMap(Interface iface, Input in) {
 		if (createMapName(iface, in) == 1)
@@ -13,13 +19,41 @@ class Map {
 		time_of_creating = getDateTime();
 		emptyMap();
 
-		//something for map creating
-		saveMap();
+		for (int id = 0; id < 10; id++) { // create ships with sizes
+			ship[id] = new BattleShip(getSizeFromID(id));
+		}
+		if (fillMapWithShips(iface, in) == 0)
+			saveMap();
 		return 0;
 	}
 
-	public void readMap() {
+	private void emptyMap() { // create empty map
+		map = new int[10][10];
 
+		for (int i = 0; i < 10; i++) {
+			for (int j = 0; j < 10; j++) {
+				map[i][j] = 6;
+			}
+		}
+	}
+
+	private int fillMapWithShips(Interface iface, Input in) {
+		for (int id = 0; id < 10; id++) {
+			String	position = "";
+
+			iface.putfillMapWithShips(map, getSizeFromID(id));
+			while (position.length() < 1) {
+				position = in.getNext();
+				if (isItPosition(position))
+					ship[id].setPosition(position, map);
+				else {
+					iface.putstr("wrong position try again");
+					position = "";
+				}
+			}
+		}
+
+		return 0;
 	}
 
 	private void saveMap() {
@@ -33,16 +67,6 @@ class Map {
 		}
 		String	strMap = new String(charMap);
 		writeIntoFile(fileName, strMap + time_of_creating, false);
-	}
-
-	private void emptyMap() {
-		map = new int[10][10];
-
-		for (int i = 0; i < 10; i++) {
-			for (int j = 0; j < 10; j++) {
-				map[i][j] = 2;
-			}
-		}
 	}
 
 	private int createMapName(Interface iface, Input in) {

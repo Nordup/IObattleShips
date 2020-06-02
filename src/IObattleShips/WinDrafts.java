@@ -4,11 +4,13 @@ import static IObattleShips.MyFile.*;
 
 class WinDrafts {
 	String	pathResources = "./resources/window_drafts/";
+	String	pathChars = "./resources/characters/";
 	String	strHead;
 	String	strMenu;
 	String	strParting;
 	String	strHelp;
 	String	strCreatingOfMap;
+	String[]	chars = new String[3];
 	
 	public WinDrafts() {
 		String head_file = pathResources + "Head.txt";
@@ -16,6 +18,7 @@ class WinDrafts {
 		String parting_file = pathResources + "Parting.txt";
 		String help_file = pathResources + "Help.txt";
 		String creatingOfMap_file = pathResources + "CreatingOfMap.txt";
+		String[] chars_file = new String[] { pathChars + "ship.txt", pathChars + "shotted.txt", pathChars + "empty.txt"};
 
 		try {
             strHead = readFileAsString(head_file);
@@ -23,6 +26,9 @@ class WinDrafts {
 			strParting = readFileAsString(parting_file);
 			strHelp = readFileAsString(help_file);
 			strCreatingOfMap = readFileAsString(creatingOfMap_file);
+			chars[0] = readFileAsString(chars_file[0]);
+			chars[1] = readFileAsString(chars_file[1]);
+			chars[2] = readFileAsString(chars_file[2]);
         } catch (IOException e) {
             System.out.println("Cannot read file: " + e.getMessage());
         }
