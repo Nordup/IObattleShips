@@ -9,8 +9,8 @@ class Map {
 	private int[][]			map;// 1 to 4 - ship id, 5 - shotted ship, 6 - empty fill
 	private BattleShip[]	ship = new BattleShip[10];
 
-	public void readMap() {
-
+	public int readMap() {
+		return 0;
 	}
 
 	public int createMap(Interface iface, Input in) {
@@ -25,6 +25,9 @@ class Map {
 		if (fillMapWithShips(iface, in) == 0)
 			saveMap();
 		return 0;
+	}
+
+	public void importMap(Interface iface, Input in) {
 	}
 
 	private void emptyMap() { // create empty map
@@ -48,6 +51,8 @@ class Map {
 				if (position.equals("1")) {
 					return 1;
 				}
+				if (position.length() != 5)
+					position = "....."; // put wrong pos
 				if (ship[id].isItRightPosition(position, iface) && ship[id].setPosition(position, map, iface))
 					;
 				else {

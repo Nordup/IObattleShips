@@ -1,7 +1,7 @@
 
         1) START GAME
         2) CREATE NEW MAP
-        3) ADD EXECUTING MAP
+        3) IMPORT MAP (not working now)
         4) HELP
         5) EXIT
         

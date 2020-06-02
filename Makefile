@@ -1,5 +1,5 @@
 COMP = javac
-JAVA = Main.java Map.java Interface.java Input.java BattleShip.java MyFile.java Time.java WinDrafts.java
+JAVA = Main.java Map.java Interface.java Input.java BattleShip.java MyFile.java Time.java WinDrafts.java Battle.java
 JAVA_CLASS = $(JAVA:%.java=%.class)
 SRC = ./src/
 OUT = ./out/

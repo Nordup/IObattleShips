@@ -34,4 +34,18 @@ class MyFile {
 		}
 		return false;
 	}
+
+	public static void pushList(String pathdir, Interface iface) {
+		Path dir = Paths.get(pathdir);
+		try (DirectoryStream<Path> stream = Files.newDirectoryStream(dir)) {
+			for (Path file: stream) {
+				String tempFileName = file.getFileName().toString();
+				iface.putstr("\t" + tempFileName + "\n");
+			}
+		} catch (IOException | DirectoryIteratorException x) {
+			// IOException can never be thrown by the iteration.
+			// In this snippet, it can only be thrown by newDirectoryStream.
+			System.err.println(x);
+		}
+	}
 }

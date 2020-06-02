@@ -1,16 +1,16 @@
 package IObattleShips;
 
 class Main {
-	Map			myMap;
-	Map			opntMap;
+	Battle		battle;
+	Map			someMap;
 	Interface	iface;
 	Input		in;
 
 	public Main() {
-		myMap = new Map();
-		opntMap = new Map();
+		someMap = new Map();
 		iface = new Interface();
 		in = new Input();
+		battle = new Battle(iface, in);
 	}
 	public static void main(String[] args) {
 		int	exit = 1;
@@ -32,8 +32,14 @@ class Main {
 			cmd = in.getNext();
 			
 			switch(cmd) {
+				case "1":
+					battle.startBattle();
+					break;
 				case "2":
-					myMap.createMap(iface, in);
+					someMap.createMap(iface, in);
+					break;
+				case "3":
+					someMap.importMap(iface, in);
 					break;
 				case "4":
 					iface.putHelp();
