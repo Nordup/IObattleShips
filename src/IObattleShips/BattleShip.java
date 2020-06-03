@@ -2,10 +2,10 @@ package IObattleShips;
 import java.lang.Math;
 
 class BattleShip {
-	int			size;
+	int			size; // size of ship
 	boolean		have_pos;//set positions or not
 	int[][]		position;//[size][coor]
-	int			health;
+	int			health; // health = size for beginnig
 
 	public BattleShip(int size) {
 		this.size = size;
@@ -14,15 +14,14 @@ class BattleShip {
 		health = size;
 	}
 
-	protected boolean setPosition(char[] cMap, int c, int[][] map) {
-		//something that can set positions
+	protected boolean setPosition(char[] cMap, int c, int[][] map) { //set from char array
 		for (int i = 0; i < size; i++) {
-			int y = c / 10;
-			int x = c % 10;
+			int y = c / 10;// its for chars A-J
+			int x = c % 10;// for digits 0-9
 			if (cMap[c] == size) {
 				position[i][0] = y;
 				position[i][1] = x;
-				cMap[c] = 6; // empty fill
+				cMap[c] = 6; // empty fill (crean fills that we write into battlesips)
 			} else {
 				return false;
 			}
@@ -114,7 +113,7 @@ class BattleShip {
 		return false; // over then map
 	}
 
-	private void fillMap(int[][] map) {
+	private void fillMap(int[][] map) { // put ship positions into map
 		for (int i = 0; i < size; i++) {
 			map[position[i][0]][position[i][1]] = size;
 		}
@@ -139,13 +138,13 @@ class BattleShip {
 		return false;
 	}
 
-	private static boolean isA_to_J(char c) {
+	protected static boolean isA_to_J(char c) {
 		if (c >= 'A' && c <= 'J')
 			return true;
 		else
 			return false;
 	}
-	private static boolean isDigit(char c) {
+	protected static boolean isDigit(char c) {
 		if (c >= '0' && c <= '9')
 			return true;
 		else

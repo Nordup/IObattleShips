@@ -10,6 +10,22 @@ class Map {
 	int[][]					map;// 1 to 4 - ship id, 5 - shotted ship, 6 - empty fill
 	private BattleShip[]	ship = new BattleShip[10];
 
+	public int attack(String field, Interface iface) {
+		return 0;
+	}
+
+	public boolean shipsAlive() {
+		int health = 0;
+		for (int id = 0; id < 10; id++) {
+			health += ship[id].health;
+		}
+		if (health == 0)
+			return false;
+		else
+			return true;
+	}
+
+
 	public int importMap(Interface iface, Input in) {
 		boolean log = true;
 
@@ -79,7 +95,7 @@ class Map {
 		return 0;
 	}
 
-	public int createMap(Interface iface, Input in) { // create and fill new map
+	public int createMap(Interface iface, Input in) { // create and field new map
 		if (createMapName(iface, in) == 1)
 			return 1;
 		time_of_creating = getDateTime();
@@ -142,7 +158,7 @@ class Map {
 				iface.putAnswer();
 				position = in.getNext(); // get position where to put ship
 				if (position.equals("1")) { // back to menu
-					return 1;
+					return 1; // there must be: are you sure?
 				}
 				if (position.length() != 5)
 					position = "....."; // put wrong pos

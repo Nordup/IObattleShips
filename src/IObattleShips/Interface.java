@@ -7,6 +7,35 @@ class Interface {
 		winDrafts = new WinDrafts();
 	}
 
+	protected void battleMap(int[][] myMap, int[][] opMap) {
+		clearScreen();
+		putHead();
+
+		putstr("\n\tBATTLE\n\n\t1) BACK TO MENU\n\n");
+		for (int i = 0; i < 10; i++) { // cycle of lines
+			//myMap putting
+			putstr("\t" + Character.toString('A' + i)); // y coors A-J
+			for (int j = 0; j < 10; j++) {
+				if (myMap[i][j] <= 4)
+					putstr(winDrafts.chars[0]);
+				else if (myMap[i][j] == 5)
+					putstr(winDrafts.chars[1]);
+				else
+					putstr(winDrafts.chars[2]);
+			}
+			//opMap putting
+			putstr("\t\t" + Character.toString('A' + i)); // y coors A-J
+			for (int j = 0; j < 10; j++) {
+				if (opMap[i][j] == 5)
+					putstr(winDrafts.chars[1]);
+				else
+					putstr(winDrafts.chars[2]);
+			}
+			putstr("\n"); // end of line
+		}
+		putstr("\n");
+	}
+
 	protected void putMainMenu() {
 		clearScreen();
 		putHead();
