@@ -1,5 +1,6 @@
 
 	CREATING OF MAP
 	Create NAME for new map
-	Or press 1 to BACK
+	
+	1) BACK TO MENU
 	

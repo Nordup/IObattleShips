@@ -1,6 +1,7 @@
 package IObattleShips;
 
 import java.io.IOException;
+import java.io.File;
 import java.io.FileWriter;
 import java.nio.file.*;
 
@@ -47,5 +48,11 @@ class MyFile {
 			// In this snippet, it can only be thrown by newDirectoryStream.
 			System.err.println(x);
 		}
+	}
+
+	public static String getFileName(String path) {
+		File f = new File(path);
+
+		return f.getName();
 	}
 }

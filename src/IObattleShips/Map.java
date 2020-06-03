@@ -7,31 +7,66 @@ import static IObattleShips.BattleShip.*;
 class Map {
 	String					map_name;
 	String					time_of_creating;
-	int[][]			map;// 1 to 4 - ship id, 5 - shotted ship, 6 - empty fill
+	int[][]					map;// 1 to 4 - ship id, 5 - shotted ship, 6 - empty fill
 	private BattleShip[]	ship = new BattleShip[10];
 
-	public void importMap(Interface iface, Input in) {
+	public int importMap(Interface iface, Input in) {
+		boolean log = true;
+
+		iface.clearScreen();
+		iface.putHead();
+		iface.putstr("\n\tWRITE PATH TO IMPORTING MAP\n\t(full path to map)\n\n\n");
+		iface.putstr("\n\t1) BACK TO MENU\n\n");
+		while (log) {
+			String mapPath;
+			iface.putAnswer();
+			mapPath = in.getNext();
+			if (mapPath.equals("1"))
+				return 1;
+			if (this.readMap(mapPath, iface) == 0)
+				log = false;
+		}
+		return 0;
 	}
 
-	public int readMap(String filename) {
+	public int readMap(String mapPath, Interface iface) { // import from other directory
+		String strMap;
+
+		try {
+			strMap = readFileAsString(mapPath);
+		} catch (IOException e) {
+			iface.putstr("Cannot read file: " + e.getMessage() + "\n"); //it will not appear
+			return 1;
+		}
+		if (createMap(strMap) != 0){
+			iface.putstr("wrong map, choose another one\n");
+			return 1;
+		}
+		map_name = getFileName(mapPath);
+		map_name = map_name.substring(0, map_name.length() - 4);
+		saveMap();
+		return 0;
+	}
+
+	public int readMap(String filename) { // read map from source/maps file
 		String strMap;
 		String mapPath = "./resources/maps/" + filename + ".map";
 
 		try {
 			strMap = readFileAsString(mapPath);
 		} catch (IOException e) {
-			System.out.println("Cannot read file: " + e.getMessage()); //it will not appear
+			System.out.println("Cannot read file: " + e.getMessage() + "\n"); //it will not appear
 			return 1;
 		}
-		if (createMap(strMap, filename) != 0){
-			System.out.println("wrong map, choose another one");
+		if (createMap(strMap) != 0){
+			System.out.println("wrong map, choose another one\n");
 			return 1;
 		}
+		this.map_name = filename;
 		return 0;
 	}
 
-	public int createMap(String strMap, String map_name) {
-		this.map_name = map_name;
+	public int createMap(String strMap) { // create map from existing file
 		time_of_creating = strMap.substring(100);
 		emptyMap();
 		for (int id = 0; id < 10; id++) { // create ships with sizes
@@ -44,7 +79,7 @@ class Map {
 		return 0;
 	}
 
-	public int createMap(Interface iface, Input in) {
+	public int createMap(Interface iface, Input in) { // create and fill new map
 		if (createMapName(iface, in) == 1)
 			return 1;
 		time_of_creating = getDateTime();
@@ -68,7 +103,7 @@ class Map {
 		}
 	}
 
-	private int fillMapWithShips(char[] cMap) {
+	private int fillMapWithShips(char[] cMap) { //ships from file
 		for (int i = 0; i < 100; i++) { // chars from cMap
 			char	code;
 			int		id;
@@ -86,7 +121,7 @@ class Map {
 		}
 		return 0;
 	}
-	private int gerIDFromSize(int size) {
+	private int gerIDFromSize(int size) { // to choose in what ship we can save positions
 		if (size < 1 || size > 4) // if its not ship size
 			return -1;
 		
@@ -137,7 +172,7 @@ class Map {
 	private int createMapName(Interface iface, Input in) {
 		String name = "";
 
-		iface.putCreatingOfMap();;		
+		iface.putCreatingOfMap();		
 		while (name.length() < 1) {
 			iface.putAnswer();
 			name = in.getNext();
