@@ -5,13 +5,71 @@ class BattleShip {
 	int			size; // size of ship
 	boolean		have_pos;//set positions or not
 	int[][]		position;//[size][coor]
+	boolean[]	shotted;
 	int			health; // health = size for beginnig
 
 	public BattleShip(int size) {
 		this.size = size;
 		have_pos = false;
 		position = new int[size][2];
+		shotted = new boolean[size];
 		health = size;
+		for (int i = 0; i < size; i++) {
+			shotted[i] = false;
+		}
+	}
+
+	protected void putToMap(int[][] map, int y, int x) {
+		if (health > 0) {
+			map[y][x] = 5;
+		} else {
+			for (int i = 0; i < size; i++) {
+				int sy = position[i][0];
+				int sx = position[i][1];
+				fillShottedShipEmpty(map, sy, sx);
+			}
+			for (int i = 0; i < size; i++) {
+				int sy = position[i][0];
+				int sx = position[i][1];
+				map[sy][sx] = 5;
+			}
+		}
+	}
+	private void fillShottedShipEmpty(int[][] map, int y, int x) {
+
+		if (isInmap(y - 1) && isInmap(x - 1))
+			map[y - 1][x - 1] = 7;
+		if (isInmap(y - 1) && isInmap(x))
+			map[y - 1][x] = 7;
+		if (isInmap(y - 1) && isInmap(x + 1))
+			map[y - 1][x + 1] = 7;
+
+		if (isInmap(y) && isInmap(x - 1))
+			map[y][x - 1] = 7;
+		if (isInmap(y) && isInmap(x))
+			map[y][x] = 7;
+		if (isInmap(y) && isInmap(x + 1))
+			map[y][x + 1] = 7;
+
+		if (isInmap(y + 1) && isInmap(x - 1))
+			map[y + 1][x - 1] = 7;
+		if (isInmap(y + 1) && isInmap(x))
+			map[y + 1][x] = 7;
+		if (isInmap(y + 1) && isInmap(x + 1))
+			map[y + 1][x + 1] = 7;
+	}
+
+	protected boolean isShotted(int y, int x) {
+		if (health == 0)
+			return false;
+		for (int i = 0; i < size; i++) {
+			if (position[i][0] == y && position[i][1] == x && !shotted[i]) {
+				shotted[i] = true;
+				health--;
+				return true;
+			}
+		}
+		return false;
 	}
 
 	protected boolean setPosition(char[] cMap, int c, int[][] map) { //set from char array

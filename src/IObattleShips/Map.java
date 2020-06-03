@@ -7,10 +7,27 @@ import static IObattleShips.BattleShip.*;
 class Map {
 	String					map_name;
 	String					time_of_creating;
-	int[][]					map;// 1 to 4 - ship id, 5 - shotted ship, 6 - empty fill
+	int[][]					map;// 1 to 4 - ship id, 5 - shotted ship, 6 - empty fill, 7 - shotted ship arround empty
 	private BattleShip[]	ship = new BattleShip[10];
 
 	public int attack(String field, Interface iface) {
+		boolean	shot = false;
+		int		y = field.charAt(0) - 'A'; // positions
+		int		x = field.charAt(1) - '0';
+
+		for (int id = 0; id < 10; id++) { // check for every ship
+			if (ship[id].isShotted(y, x)) {
+				ship[id].putToMap(map, y, x);
+				shot = true;
+				break;
+			} // fill map there
+		}
+		if (!shot) {
+			if (map[y][x] == 5 || map[y][x] == 7)
+				return 1;
+			else
+				map[y][x] = 7;
+		}
 		return 0;
 	}
 

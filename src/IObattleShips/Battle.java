@@ -62,6 +62,10 @@ class Battle {
 					iface.putstr("wrong field try again\n");
 			}
 		} // game is end
+		if (amIfirst)
+			iface.putGameOver("lose", in);
+		else
+			iface.putGameOver("win", in);
 		return 0;
 	}
 

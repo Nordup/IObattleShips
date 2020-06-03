@@ -10,7 +10,7 @@ class WinDrafts {
 	String	strParting;
 	String	strHelp;
 	String	strCreatingOfMap;
-	String[]	chars = new String[3];
+	String[]	chars = new String[4];
 	
 	public WinDrafts() {
 		String head_file = pathResources + "Head.txt";
@@ -18,7 +18,7 @@ class WinDrafts {
 		String parting_file = pathResources + "Parting.txt";
 		String help_file = pathResources + "Help.txt";
 		String creatingOfMap_file = pathResources + "CreatingOfMap.txt";
-		String[] chars_file = new String[] { pathChars + "ship.txt", pathChars + "shotted.txt", pathChars + "empty.txt"};
+		String[] chars_file = new String[] { pathChars + "ship.txt", pathChars + "shotted.txt", pathChars + "empty.txt", pathChars + "cloud.txt"};
 
 		try {
             strHead = readFileAsString(head_file);
@@ -29,6 +29,7 @@ class WinDrafts {
 			chars[0] = readFileAsString(chars_file[0]);
 			chars[1] = readFileAsString(chars_file[1]);
 			chars[2] = readFileAsString(chars_file[2]);
+			chars[3] = readFileAsString(chars_file[3]);
         } catch (IOException e) {
             System.out.println("Cannot read file: " + e.getMessage());
         }
