@@ -1,4 +1,5 @@
 package IObattleShips;
+//import java.io.IOException;
 
 class Main {
 	Battle		battle;

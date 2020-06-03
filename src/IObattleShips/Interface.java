@@ -1,5 +1,7 @@
 package IObattleShips;
 
+import java.io.IOException;
+
 class Interface {
 	WinDrafts	winDrafts; // drafts of parts of window
 
@@ -114,9 +116,19 @@ class Interface {
 	}
 
 	protected void	clearScreen() {
-	    putstr("\033[H\033[2J");
-	    System.out.flush();
+		System.out.print("\033[H\033[2J");  
+		System.out.flush();
+		try {
+			this.CLS();
+		} catch (IOException e) {
+
+		} catch (InterruptedException e) {
+			// handle it
+		}
 	}
+	private void CLS() throws IOException, InterruptedException {
+        new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
+    }
 
 	public void putstr(String str) {
 		System.out.print(str);
