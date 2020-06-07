@@ -2,12 +2,7 @@ package IObattleShips;
 
 import java.io.IOException;
 
-class Interface {
-	WinDrafts	winDrafts; // drafts of parts of window
-
-	protected Interface() {
-		winDrafts = new WinDrafts();
-	}
+class Interface extends WinDrafts {
 
 	protected void battleMap(int[][] myMap, int[][] opMap) {
 		clearScreen();
@@ -20,23 +15,23 @@ class Interface {
 			putstr("\t" + Character.toString('A' + i)); // y coors A-J
 			for (int j = 0; j < 10; j++) {
 				if (myMap[i][j] <= 4)
-					putstr(winDrafts.chars[0]);
+					putstr(super.chars[0]);
 				else if (myMap[i][j] == 5) // shotted ship
-					putstr(winDrafts.chars[1]);
+					putstr(super.chars[1]);
 				else if (myMap[i][j] == 7) // shotted ship arround empty
-					putstr(winDrafts.chars[3]); // cloud
+					putstr(super.chars[3]); // cloud
 				else
-					putstr(winDrafts.chars[2]); // empty sea
+					putstr(super.chars[2]); // empty sea
 			}
 			//opMap putting
 			putstr("\t\t" + Character.toString('A' + i)); // y coors A-J
 			for (int j = 0; j < 10; j++) {
 				if (opMap[i][j] == 5) // shotted ship
-					putstr(winDrafts.chars[1]); // shotted ship
+					putstr(super.chars[1]); // shotted ship
 				else if (opMap[i][j] == 7) // shotted ship arround empty
-					putstr(winDrafts.chars[2]); // empty sea
+					putstr(super.chars[2]); // empty sea
 				else
-					putstr(winDrafts.chars[3]); // cloud
+					putstr(super.chars[3]); // cloud
 			}
 			putstr("\n"); // end of line
 		}
@@ -57,18 +52,18 @@ class Interface {
 	protected void putMainMenu() {
 		clearScreen();
 		putHead();
-		putstr(winDrafts.strMenu);
+		putstr(super.strMenu);
 	}
 
 	protected void putHelp() {
 		clearScreen();
 		putHead();
-		putstr(winDrafts.strHelp);
+		putstr(super.strHelp);
 		putAnswer();
 	}
 
 	protected void putHead() {
-		putstr(winDrafts.strHead);
+		putstr(super.strHead);
 	}
 
 	protected void putAnswer() {
@@ -78,7 +73,7 @@ class Interface {
 	protected void putCreatingOfMap() {
 		clearScreen();
 		putHead();
-		putstr(winDrafts.strCreatingOfMap);
+		putstr(super.strCreatingOfMap);
 	}
 
 	protected void putfillMapWithShips(int[][] map, int size, String map_name) {
@@ -104,11 +99,11 @@ class Interface {
 			putstr("\t" + Character.toString('A' + i));
 			for (int j = 0; j < 10; j++) {
 				if (map[i][j] <= 4)
-					putstr(winDrafts.chars[0]);
+					putstr(super.chars[0]);
 				else if (map[i][j] == 5)
-					putstr(winDrafts.chars[1]);
+					putstr(super.chars[1]);
 				else
-					putstr(winDrafts.chars[2]);
+					putstr(super.chars[2]);
 			}
 			putstr(help[i]);
 		}
@@ -137,6 +132,6 @@ class Interface {
 	protected void Parting() {
 		clearScreen();
 		putHead();
-		putstr(winDrafts.strParting);
+		putstr(super.strParting);
 	}
 }
